@@ -4,18 +4,35 @@
 const int X_AXIS = 0;
 const int Y_AXIS = 1;
 
-void joystick::begin(int x, int y) {
+joystick::joystick(int x, int y, int joystickCenter) {
   xPin = x;
   yPin = y;
+  center = joystickCenter;
 };
 
-void joystick::begin(int x, int y, int z) {
+joystick::joystick(int x, int y) {
   xPin = x;
   yPin = y;
-  isButton = true;
-  zPin = z;
-  pinMode(zPin, INPUT_PULLUP);
-};
+}
+
+void joystick::center() {
+  // Get the x center.
+  int xcenter = 0;
+  for (int n = 0; n < 5; n++) {
+    int16_t xcenter += analogRead(xPin);
+  }
+  xcenter /= 5;
+
+  // Get they y center.
+  int ycenter = 0;
+  for (int n = 0; n < 5; n++) {
+    int16_t ycenter += analogRead(yPin);
+  }
+  ycenter /= 5;
+
+  // Get the center.
+  center = (xcenter + ycenter)/2;
+}
 
 int joystick::readJoy(uint8_t axis) {
   switch (axis) {
@@ -23,10 +40,9 @@ int joystick::readJoy(uint8_t axis) {
     case (X_AXIS):
       {
         int16_t xVal = analogRead(xPin);
-        delay(10);
-        if (xVal < 1800) {
+        if (xVal < (center-300)) {
           return -1;
-        } else if (xVal > 2200) {
+        } else if (xVal > (center+300)) {
           return 1;
         } else {
           return 0;
@@ -37,10 +53,9 @@ int joystick::readJoy(uint8_t axis) {
     case (Y_AXIS):
       {
         int16_t yVal = analogRead(yPin);
-        delay(10);
-        if (yVal < 1700) {
+        if (yVal < (center-300)) {
           return -1;
-        } else if (yVal > 2300) {
+        } else if (yVal > (center+300)) {
           return 1;
         } else {
           return 0;
@@ -54,6 +69,7 @@ int joystick::readJoy(uint8_t axis) {
 };
 
 int joystick::readJoy(uint8_t axis, bool orientation) {
+  // Set the orientation.
   int orient;
   if (orientation) {
     orient = 1;
@@ -66,10 +82,9 @@ int joystick::readJoy(uint8_t axis, bool orientation) {
     case (X_AXIS):
       {
         int16_t xVal = analogRead(xPin);
-        delay(10);
-        if (xVal < 1800) {
+        if (xVal < (center-300)) {
           return -1*orient;
-        } else if (xVal > 2200) {
+        } else if (xVal > (center+300)) {
           return 1*orient;
         } else {
           return 0;
@@ -80,10 +95,9 @@ int joystick::readJoy(uint8_t axis, bool orientation) {
     case (Y_AXIS):
       {
         int16_t yVal = analogRead(yPin);
-        delay(10);
-        if (yVal < 1700) {
+        if (yVal < (center-300)) {
           return -1*orient;
-        } else if (yVal > 2300) {
+        } else if (yVal > (center+300)) {
           return 1*orient;
         } else {
           return 0;
@@ -96,30 +110,52 @@ int joystick::readJoy(uint8_t axis, bool orientation) {
   }
 };
 
-bool joystick::readZ(bool singular) {
-  // If there is a joystick button.
-  if (isButton) {
-    // Read the joysticks buttons state.
-    int buttonState = digitalRead(zPin);
-
-    // If you're only looking for a state change.
-    if (singular) {
-      if (buttonState != lastButtonState) {
-        lastButtonState = buttonState;
-        if (buttonState == 0) {
-          return true;
+int joystick::readJoy(uint8_t axis, int multiplier) {
+  switch (axis) {
+    // x axis
+    case (X_AXIS):
+      {
+        int16_t xVal = analogRead(xPin);
+        if (xVal < (center-300)) {
+          for (int i = 0; i < multiplier; i++) {
+            if ((xVal > ((center-300)-((center-300)/multiplier)*(i+1))) && (xVal < ((center-300)-((center-300)/multiplier)*(i)))) {
+              return (-1*(i+1));
+            }
+          }
+        } else if (xVal > (center+300)) {
+          for (int i = 0; i < multiplier; i++) {
+            if ((xVal > ((center+300)+((center+300)/multiplier)*(i))) && (xVal < ((center+300)+((center+300)/multiplier)*(i+1)))) {
+              return (-1*(i+1));
+            }
+          }
+        } else {
+          return 0;
         }
+        break;
       }
-      // Else if you just want the current value of the button.
-    } else {
-      if (buttonState == 0) {
-        return true;
+    // y axis
+    case (Y_AXIS):
+      {
+        int16_t yVal = analogRead(yPin);
+        if (yVal < (center-300)) {
+          for (int i = 0; i < multiplier; i++) {
+            if ((yVal > ((center-300)-((center-300)/multiplier)*(i+1))) && (yVal < ((center-300)-((center-300)/multiplier)*(i)))) {
+              return (-1*(i+1));
+            }
+          }
+        } else if (yVal > (center+300)) {
+          for (int i = 0; i < multiplier; i++) {
+            if ((yVal > ((center+300)+((center+300)/multiplier)*(i))) && (yVal < ((center+300)+((center+300)/multiplier)*(i+1)))) {
+              return (-1*(i+1));
+            }
+          }
+        } else {
+          return 0;
+        }
+        break;
       }
-    }
-
-    return false;
-  // Else if there isn't one, just return false.
-  } else {
-    return false;
+    default:
+      return 0;
+      break;
   }
 };

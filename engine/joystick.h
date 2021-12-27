@@ -3,25 +3,24 @@
 
 class joystick {
   public:
+    // Initalizer. uses the x pin, y pin, and the center of the joystick.
+    joystick(int x, int y, int center);
+    joystick(int x, int y);
+
+    // Figure out the center of the joystick.
+    void center();
+
+    // Read the joysticks value.
+    int read(uint8_t axis);
+    int read(uint8_t axis, bool orientation);
+    int read(uint8_t axis, int multiplier);
+  private:
+    // Center of the joystick.
+    int center;
+
+    // Pins.
     int xPin;
     int yPin;
-    int zPin;
-
-    // Function to setup the variables needed for the class. They're overloaded so that the user can either choose to enter a buttonless joystick or a joystick with a button.
-    void begin(int x, int y);
-    void begin(int x, int y, int z);
-
-    // Read the joystick. X and Y orientation can be used to flip around the orientation of the joystick. True is the default orientation, false is the opposite. If
-    // you don't wish to switch the orientation at all, you don't have to.
-    int readJoy(uint8_t axis);
-    int readJoy(uint8_t axis, bool orientation);
-
-    // Function to read the joystick button. Will only read if the user has defined a z pin.
-    bool readZ(bool singular);
-
-  private:
-    int lastButtonState = 1;
-    bool isButton = false;
-};
+}
 
 #endif
