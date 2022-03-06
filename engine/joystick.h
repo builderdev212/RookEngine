@@ -17,11 +17,11 @@ class joystick {
     
   private:
     // Center of the joystick.
-    int center;
+    int joyCenter;
 
     // Pins.
     int xPin;
     int yPin;
-}
+};
 
 #endif
