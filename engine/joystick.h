@@ -14,6 +14,7 @@ class joystick {
     int read(uint8_t axis);
     int read(uint8_t axis, bool orientation);
     int read(uint8_t axis, int multiplier);
+    
   private:
     // Center of the joystick.
     int center;

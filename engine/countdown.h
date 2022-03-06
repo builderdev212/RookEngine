@@ -20,6 +20,7 @@ class countdown {
 
     // Checks to see if the timer is done. Returns true if finshed, else returns false.
     bool isDone();
+    
   private:
     // Is the timer running. This ignores whether they are paused or not.
     bool isTimer = false;

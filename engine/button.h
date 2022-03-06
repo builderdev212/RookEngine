@@ -12,6 +12,7 @@ class button {
 
     // Look for a state change in the button.
     bool uniqueRead();
+    
   private:
     // Button pin
     int buttonPin;
