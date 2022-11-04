@@ -24,9 +24,9 @@ struct button {
 };
 
 struct buttonsInfo {
-  uint16_t rows = 1;
-  uint16_t* buttonPerRow = new uint16_t[rows];
-  button** buttons = new button*[rows];
+  uint16_t rows;
+  uint16_t* buttonPerRow;
+  button** buttons;
 };
 
 class buttonSet {
@@ -178,6 +178,9 @@ class buttonSet {
         newbuttonsInfo.rows = buttons.rows;
       }
 
+      newbuttonsInfo.buttonPerRow = new uint16_t[newbuttonsInfo.rows];
+      newbuttonsInfo.buttons = new button*[newbuttonsInfo.rows];
+
       // Calculate the number of buttons per row.
       for (int i = 0; i < newbuttonsInfo.rows; i++) {
         if (i < buttons.rows) {
@@ -235,6 +238,9 @@ class buttonSet {
       } else {
         newbuttonsInfo.rows = buttons.rows;
       }
+
+      newbuttonsInfo.buttonPerRow = new uint16_t[newbuttonsInfo.rows];
+      newbuttonsInfo.buttons = new button*[newbuttonsInfo.rows];
 
       // Calculate the number of buttons per row.
       int isZero = 0;
@@ -348,9 +354,9 @@ class buttonSet {
       // Disable all of the buttons as long as they're not already disabled.
       for (int n = 0; n < buttons.rows; n++) {
         for (int i = 0; i < buttons.buttonPerRow[n]; i++) {
-          if (buttons.buttons[row][col].isDisabled == false) {
-            buttons.buttons[row][col].disable(_tft, buttons.buttons[row][col].x, buttons.buttons[row][col].y);
-            buttons.buttons[row][col].isDisabled = true;
+          if (buttons.buttons[n][i].isDisabled == false) {
+            buttons.buttons[n][i].disable(_tft, buttons.buttons[n][i].x, buttons.buttons[n][i].y);
+            buttons.buttons[n][i].isDisabled = true;
           }
         }
       }
@@ -361,9 +367,9 @@ class buttonSet {
       // Enable all of the buttons as long as they're not already enabled.
       for (int n = 0; n < buttons.rows; n++) {
         for (int i = 0; i < buttons.buttonPerRow[n]; i++) {
-          if (buttons.buttons[row][col].isDisabled == true) {
-            buttons.buttons[row][col].draw(_tft, buttons.buttons[row][col].x, buttons.buttons[row][col].y);
-            buttons.buttons[row][col].isDisabled = false;
+          if (buttons.buttons[n][i].isDisabled == true) {
+            buttons.buttons[n][i].draw(_tft, buttons.buttons[n][i].x, buttons.buttons[n][i].y);
+            buttons.buttons[n][i].isDisabled = false;
           }
         }
       }

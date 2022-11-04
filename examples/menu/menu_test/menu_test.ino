@@ -65,8 +65,10 @@ void loop() {
 
   // Initate the button setup variable.
   buttonsInfo buttons;
-  // Set the number of rows of buttons.
   buttons.rows = 5;
+  buttons.buttonPerRow = new uint16_t[buttons.rows];
+  buttons.buttons = new button*[buttons.rows];
+  // Set the number of rows of buttons.
   // Set the number of buttons per row.
   for (int n = 0; n < buttons.rows; n++) {
     buttons.buttonPerRow[n] = 5;
