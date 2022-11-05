@@ -1,7 +1,7 @@
 #include "joystick.h"
 
 // Initalize the joystick on pin 33 (x) and pin 32 (y).
-joystick stick(33, 32);
+joystick stick(39, 36);
 
 void setup() {
   Serial.begin(115200);

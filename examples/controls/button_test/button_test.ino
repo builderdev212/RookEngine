@@ -6,7 +6,7 @@ void setup() {
 
 void loop() {
   // Initalize a button on pin 27 as input pullup. This is the default.
-  button test(27);
+  button test(12);
 
   while (true) {
     Serial.print("State: ");
@@ -16,6 +16,6 @@ void loop() {
     Serial.print(" Unique: ");
     // See if there has been a unique button press.
     Serial.println(test.uniqueRead());
-    delay(10);
+    delay(100);
   }
 }
