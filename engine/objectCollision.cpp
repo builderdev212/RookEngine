@@ -38,7 +38,7 @@ bool objectCollision::isCollision(objectCollision otherObject) {
   rect rectShape;
   circle circleShape;
   ellipse ellipseShape;
-  
+
   switch (otherObject.shape) {
     case OBJECT_RECTANGLE:
       rectShape.x = otherObject.x0;
@@ -52,7 +52,7 @@ bool objectCollision::isCollision(objectCollision otherObject) {
       circleShape.y = otherObject.y0;
       circleShape.r = otherObject.r0;
       return isCollision(circleShape);
-      
+
     case OBJECT_ELLIPSE:
       ellipseShape.x = otherObject.x0;
       ellipseShape.y = otherObject.y0;

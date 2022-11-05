@@ -31,7 +31,7 @@ void joystick::center() {
   ycenter /= 5;
 
   // Get the center.
-  joyCenter = (xcenter + ycenter)/2;
+  joyCenter = (xcenter + ycenter) / 2;
 }
 
 int joystick::read(uint8_t axis) {
@@ -40,9 +40,9 @@ int joystick::read(uint8_t axis) {
     case (X_AXIS):
       {
         int16_t xVal = analogRead(xPin);
-        if (xVal < (joyCenter-300)) {
+        if (xVal < (joyCenter - 300)) {
           return -1;
-        } else if (xVal > (joyCenter+300)) {
+        } else if (xVal > (joyCenter + 300)) {
           return 1;
         } else {
           return 0;
@@ -53,9 +53,9 @@ int joystick::read(uint8_t axis) {
     case (Y_AXIS):
       {
         int16_t yVal = analogRead(yPin);
-        if (yVal < (joyCenter-300)) {
+        if (yVal < (joyCenter - 300)) {
           return -1;
-        } else if (yVal > (joyCenter+300)) {
+        } else if (yVal > (joyCenter + 300)) {
           return 1;
         } else {
           return 0;
@@ -82,10 +82,10 @@ int joystick::read(uint8_t axis, bool orientation) {
     case (X_AXIS):
       {
         int16_t xVal = analogRead(xPin);
-        if (xVal < (joyCenter-300)) {
-          return -1*orient;
-        } else if (xVal > (joyCenter+300)) {
-          return 1*orient;
+        if (xVal < (joyCenter - 300)) {
+          return -1 * orient;
+        } else if (xVal > (joyCenter + 300)) {
+          return 1 * orient;
         } else {
           return 0;
         }
@@ -95,10 +95,10 @@ int joystick::read(uint8_t axis, bool orientation) {
     case (Y_AXIS):
       {
         int16_t yVal = analogRead(yPin);
-        if (yVal < (joyCenter-300)) {
-          return -1*orient;
-        } else if (yVal > (joyCenter+300)) {
-          return 1*orient;
+        if (yVal < (joyCenter - 300)) {
+          return -1 * orient;
+        } else if (yVal > (joyCenter + 300)) {
+          return 1 * orient;
         } else {
           return 0;
         }
@@ -116,16 +116,16 @@ int joystick::read(uint8_t axis, int multiplier) {
     case (X_AXIS):
       {
         int16_t xVal = analogRead(xPin);
-        if (xVal < (joyCenter-300)) {
+        if (xVal < (joyCenter - 300)) {
           for (int i = 0; i < multiplier; i++) {
-            if ((xVal > ((joyCenter-300)-((joyCenter-300)/multiplier)*(i+1))) && (xVal < ((joyCenter-300)-((joyCenter-300)/multiplier)*(i)))) {
-              return (-1*(i+1));
+            if ((xVal > ((joyCenter - 300) - ((joyCenter - 300) / multiplier) * (i + 1))) && (xVal < ((joyCenter - 300) - ((joyCenter - 300) / multiplier) * (i)))) {
+              return (-1 * (i + 1));
             }
           }
-        } else if (xVal > (joyCenter+300)) {
+        } else if (xVal > (joyCenter + 300)) {
           for (int i = 0; i < multiplier; i++) {
-            if ((xVal > ((joyCenter+300)+((joyCenter+300)/multiplier)*(i))) && (xVal < ((joyCenter+300)+((joyCenter+300)/multiplier)*(i+1)))) {
-              return (-1*(i+1));
+            if ((xVal > ((joyCenter + 300) + ((joyCenter + 300) / multiplier) * (i))) && (xVal < ((joyCenter + 300) + ((joyCenter + 300) / multiplier) * (i + 1)))) {
+              return (-1 * (i + 1));
             }
           }
         } else {
@@ -137,16 +137,16 @@ int joystick::read(uint8_t axis, int multiplier) {
     case (Y_AXIS):
       {
         int16_t yVal = analogRead(yPin);
-        if (yVal < (joyCenter-300)) {
+        if (yVal < (joyCenter - 300)) {
           for (int i = 0; i < multiplier; i++) {
-            if ((yVal > ((joyCenter-300)-((joyCenter-300)/multiplier)*(i+1))) && (yVal < ((joyCenter-300)-((joyCenter-300)/multiplier)*(i)))) {
-              return (-1*(i+1));
+            if ((yVal > ((joyCenter - 300) - ((joyCenter - 300) / multiplier) * (i + 1))) && (yVal < ((joyCenter - 300) - ((joyCenter - 300) / multiplier) * (i)))) {
+              return (-1 * (i + 1));
             }
           }
-        } else if (yVal > (joyCenter+300)) {
+        } else if (yVal > (joyCenter + 300)) {
           for (int i = 0; i < multiplier; i++) {
-            if ((yVal > ((joyCenter+300)+((joyCenter+300)/multiplier)*(i))) && (yVal < ((joyCenter+300)+((joyCenter+300)/multiplier)*(i+1)))) {
-              return (-1*(i+1));
+            if ((yVal > ((joyCenter + 300) + ((joyCenter + 300) / multiplier) * (i))) && (yVal < ((joyCenter + 300) + ((joyCenter + 300) / multiplier) * (i + 1)))) {
+              return (-1 * (i + 1));
             }
           }
         } else {

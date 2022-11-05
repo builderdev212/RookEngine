@@ -10,7 +10,7 @@ void countdown::start(int32_t seconds) {
     if (((isRunningTimer == true) || (isPausedTimer == true)) || ((isRunningTimer == true) && (isPausedTimer == true))) {
       // Don't start the timer.
       return;
-    // Else if the timer is not running and is not paused...
+      // Else if the timer is not running and is not paused...
     } else {
       // Start the timer.
       isRunningTimer = true;
@@ -32,7 +32,7 @@ void countdown::pause() {
     if (isPausedTimer == true) {
       // Don't pause the timer.
       return;
-    // Else if the timer is not paused...
+      // Else if the timer is not paused...
     } else {
       // Pause the timer.
       isPausedTimer = true;
@@ -51,7 +51,7 @@ void countdown::resume() {
     if (isPausedTimer == false) {
       // Don't unpause the timer.
       return;
-    // Else if the timer is paused...
+      // Else if the timer is paused...
     } else {
       // Unpause the timer.
       isPausedTimer = false;
@@ -87,7 +87,7 @@ bool countdown::isDone() {
       isTimer = false;
       // Return true.
       return true;
-    // Else if the timer is still running...
+      // Else if the timer is still running...
     } else {
       // Return false.
       return false;
