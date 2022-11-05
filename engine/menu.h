@@ -30,13 +30,22 @@ struct buttonsInfo {
   button** buttons;
 };
 
+struct pos {
+  uint16_t x;
+  uint16_t y;
+};
+
 class buttonSet {
   public:
     // SETUP FUNCTIONS
 
     buttonSet(TFT_eSPI*, buttonLayout, void (*)(TFT_eSPI*, uint16_t, uint16_t, uint16_t, uint16_t));
 
+    buttonSet(TFT_eSPI*, buttonLayout, void (*)(TFT_eSPI*, uint16_t, uint16_t, uint16_t, uint16_t), pos);
+
     buttonSet(TFT_eSPI*, buttonLayout, int);
+
+    buttonSet(TFT_eSPI*, buttonLayout, int, pos);
 
     // STRUCTURE SETUP
 
@@ -80,6 +89,17 @@ class buttonSet {
     // Enable all buttons.
     void enableAll();
 
+    // BUTTON HOVER FUNCTIONS
+
+    // Set the position of the hover.
+    void setHoveredButton(pos);
+
+    // Turn hover on.
+    void hoverOn();
+
+    // Turn hover off.
+    void hoverOff();
+
   private:
     // Variable to store the display library.
     TFT_eSPI *_tft = nullptr;
@@ -94,7 +114,16 @@ class buttonSet {
     // Variable to store the background color.
     uint32_t bgColor;
 
-    // SETUP FUNCTIONS
+    // Variable to store hover position.
+    pos hoverPos;
+
+    // Variable to store the status of the hover.
+    bool isHoverOn = false;
+
+    // BUTTON HOVER FUNCTIONS
+
+    // Function used to validate if the position is within the possible position.
+    bool isValidPos(pos);
 
     // BACKGROUND FUNCTIONS
 

@@ -12,6 +12,22 @@ buttonSet::buttonSet(TFT_eSPI* tft, buttonLayout initialLayout, void (*drawBg)(T
   _tft = tft;
   // Store the function to display the background.
   background = drawBg;
+  // Store the initial hover position.
+  hoverPos.x = 0;
+  hoverPos.y = 0;
+  // Draw the background to the screen.
+  drawBackground();
+}
+
+buttonSet::buttonSet(TFT_eSPI* tft, buttonLayout initialLayout, void (*drawBg)(TFT_eSPI*, uint16_t, uint16_t, uint16_t, uint16_t), pos initalPos) {
+  // Set the inital layout variables.
+  layout = initialLayout;
+  // Store the tft library to draw to the screen.
+  _tft = tft;
+  // Store the function to display the background.
+  background = drawBg;
+  // Store the initial hover position.
+  hoverPos = initalPos;
   // Draw the background to the screen.
   drawBackground();
 }
@@ -23,6 +39,22 @@ buttonSet::buttonSet(TFT_eSPI* tft, buttonLayout initialLayout, int backgroundCo
   _tft = tft;
   // Store the background color.
   bgColor = backgroundColor;
+  // Store the initial hover position.
+  hoverPos.x = 0;
+  hoverPos.y = 0;
+  // Draw the background to the screen.
+  drawBackground();
+}
+
+buttonSet::buttonSet(TFT_eSPI* tft, buttonLayout initialLayout, int backgroundColor, pos initalPos) {
+  // Set the inital layout variables.
+  layout = initialLayout;
+  // Store the tft library to draw to the screen.
+  _tft = tft;
+  // Store the background color.
+  bgColor = backgroundColor;
+  // Store the initial hover position.
+  hoverPos = initalPos;
   // Draw the background to the screen.
   drawBackground();
 }
@@ -48,6 +80,10 @@ void buttonSet::drawButtons() {
         buttons.buttons[n][i].disable(_tft, buttons.buttons[n][i].x, buttons.buttons[n][i].y);
       } else {
         buttons.buttons[n][i].draw(_tft, buttons.buttons[n][i].x, buttons.buttons[n][i].y);
+
+        if (buttons.buttons[n][i].hovered && isHoverOn) {
+          buttons.buttons[n][i].hover(_tft, buttons.buttons[n][i].x, buttons.buttons[n] [i].y);
+        }
       }
     }
   }
@@ -346,6 +382,46 @@ void buttonSet::enableAll() {
     }
   }
 }
+
+// BUTTON HOVER FUNCTIONS
+
+void buttonSet::setHoveredButton(pos newHover) {
+  if (isHoverOn) {
+    if (isValidPos(newHover)) {
+      if (buttons.buttons[newHover.y][newHover.x].hovered == false) {
+        buttons.buttons[hoverPos.y][hoverPos.x].hovered = false;
+
+        hoverPos.x = newHover.x;
+        hoverPos.y = newHover.y;
+
+        buttons.buttons[hoverPos.y][hoverPos.x].hovered = true;
+
+        drawBackground();
+        drawButtons();
+      }
+    }
+  }
+}
+
+// Turn hover on.
+void buttonSet::hoverOn() {
+  isHoverOn = true;
+  setHoveredButton(hoverPos);
+}
+
+// Turn hover off.
+void buttonSet::hoverOff() {
+  isHoverOn = false;
+}
+
+// Function used to validate if the position is within the possible position.
+bool buttonSet::isValidPos(pos position) {
+  if (position.y > buttons.rows) return false;
+  if (position.x > buttons.buttonPerRow[position.y]) return false;
+  return true;
+}
+
+// BACKGROUND FUNCTIONS
 
 // Function to draw the background to the screen. It figures out if it needs to draw a user definited bacground or a color.
 void buttonSet::drawBackground() {
