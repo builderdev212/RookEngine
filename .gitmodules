@@ -1,0 +1,9 @@
+[submodule "boards"]
+	path = boards
+	url = https://github.com/builderdev212/ESP32S3N16R8-PlatformIO-Config
+[submodule "lib/RookDisplay"]
+	path = lib/RookDisplay
+	url = https://github.com/builderdev212/RookDisplay
+[submodule "lib/miniz"]
+	path = lib/miniz
+	url = https://github.com/builderdev212/miniz

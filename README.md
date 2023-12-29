@@ -1,3 +1,2 @@
 # RookEngine
-RookEngine is a simple game engine for embedded systems built upon the TFT_eSPI library.
-More info/wiki in the future.
+This is the development environment for games for the RookConsole project.
